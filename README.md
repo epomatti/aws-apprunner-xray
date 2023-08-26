@@ -36,3 +36,13 @@ Apply again to create the App Runner instance:;
 ```sh
 terraform -chdir="infra" apply -auto-approve
 ```
+
+---
+
+### Clean-up
+
+Destroy the resources when done:
+
+```sh
+terraform -chdir="infra" destroy -auto-approve
+```

@@ -1,3 +1,5 @@
+### Instance Role ###
+
 resource "aws_iam_role" "instance_role" {
   name = "AppRunnerXRayInstanceRole"
 
@@ -21,6 +23,8 @@ resource "aws_iam_role_policy_attachment" "xray" {
   policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
 }
 
+### Access Role ###
+
 resource "aws_iam_role" "access_role" {
   name = "AppRunnerXRayAccessRole"
 
@@ -39,7 +43,7 @@ resource "aws_iam_role" "access_role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "access_role" {
+resource "aws_iam_role_policy_attachment" "ecr_access" {
   role       = aws_iam_role.access_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess"
 }
