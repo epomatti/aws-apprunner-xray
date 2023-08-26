@@ -33,7 +33,9 @@ resource "aws_apprunner_service" "main" {
   }
 
   health_check_configuration {
-    path = "/actuator/health"
+    protocol            = "HTTP"
+    path                = "/actuator/health"
+    # unhealthy_threshold = 5
   }
 
   observability_configuration {

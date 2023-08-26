@@ -22,6 +22,7 @@ module "iam" {
 
 module "apprunner_public" {
   source            = "./modules/public"
+  count             = var.app_runner_workload == "PUBLIC" ? 1 : 0
   workload          = "public"
   cpu               = var.app_runner_cpu
   mem               = var.app_runner_memory
