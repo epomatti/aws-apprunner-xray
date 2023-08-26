@@ -13,107 +13,33 @@ provider "aws" {
 resource "aws_ecr_repository" "app" {
   name                 = "ecr-apprunner-java-xray"
   image_tag_mutability = "MUTABLE"
+  force_delete         = true
 }
 
-resource "aws_apprunner_service" "main" {
-  service_name = "apprunner-java-xray"
-
-  instance_configuration {
-    cpu               = var.app_runner_cpu
-    memory            = var.app_runner_memory
-    instance_role_arn = aws_iam_role.instance_role.arn
-  }
-
-  network_configuration {
-    egress_configuration {
-      egress_type = "DEFAULT"
-    }
-    ingress_configuration {
-      is_publicly_accessible = true
-    }
-  }
-
-  source_configuration {
-    auto_deployments_enabled = true
-
-    image_repository {
-      image_configuration {
-        port = "8080"
-      }
-      image_identifier      = "${aws_ecr_repository.app.repository_url}:latest"
-      image_repository_type = "ECR"
-    }
-
-    runtime_environment_secrets   = {}
-    runtime_environment_variables = {}
-
-    authentication_configuration {
-      access_role_arn = aws_iam_role.access_role.arn
-    }
-  }
-
-  health_check_configuration {
-    path = "/actuator/health"
-  }
-
-  observability_configuration {
-    observability_enabled           = true
-    observability_configuration_arn = aws_apprunner_observability_configuration.main.arn
-  }
+module "iam" {
+  source = "./modules/iam"
 }
 
-resource "aws_apprunner_observability_configuration" "main" {
-  observability_configuration_name = "awsxray"
-
-  trace_configuration {
-    vendor = "AWSXRAY"
-  }
+module "apprunner_public" {
+  source            = "./modules/public"
+  workload          = "public"
+  cpu               = var.app_runner_cpu
+  mem               = var.app_runner_memory
+  instance_role_arn = module.iam.instance_role_arn
+  access_role_arn   = module.iam.access_role_arn
+  repository_url    = aws_ecr_repository.app.repository_url
 }
 
-### IAM ###
-
-resource "aws_iam_role" "instance_role" {
-  name = "AppRunnerXRayInstanceRole"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "tasks.apprunner.amazonaws.com"
-        }
-      },
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "xray" {
-  role       = aws_iam_role.instance_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
-}
-
-resource "aws_iam_role" "access_role" {
-  name = "AppRunnerXRayAccessRole"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "build.apprunner.amazonaws.com"
-        }
-      },
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "access_role" {
-  role       = aws_iam_role.access_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess"
+resource "aws_xray_sampling_rule" "app" {
+  rule_name      = "JavaApp"
+  priority       = 100
+  version        = 1
+  reservoir_size = 1
+  fixed_rate     = 1
+  url_path       = "*"
+  host           = "*"
+  http_method    = "*"
+  service_type   = "*"
+  service_name   = "*"
+  resource_arn   = "*"
 }
