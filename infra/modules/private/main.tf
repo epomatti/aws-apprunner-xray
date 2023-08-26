@@ -65,6 +65,14 @@ module "vpc" {
   workload   = "apprunner-xray"
 }
 
+module "nat-instance" {
+  source       = "./nat"
+  workload     = var.workload
+  vpc_id       = module.vpc.vpc_id
+  subnet       = module.vpc.public_subnets[0]
+  route_tables = module.vpc.priv_rts
+}
+
 ### Security Groups ###
 resource "aws_security_group" "main" {
   name        = "apprunner-${var.workload}"
