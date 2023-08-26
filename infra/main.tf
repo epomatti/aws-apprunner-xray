@@ -33,7 +33,7 @@ module "apprunner_public" {
 
 module "apprunner_private" {
   source            = "./modules/private"
-  count             = var.app_runner_workload == "PRIVATE" ? 1 : 0
+  count             = var.app_runner_workload == "VPC" ? 1 : 0
   aws_region        = var.aws_region
   workload          = "private"
   cpu               = var.app_runner_cpu

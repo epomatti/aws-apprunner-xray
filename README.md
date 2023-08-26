@@ -2,7 +2,7 @@
 
 Two scenarios are provided:
 - Public
-- Public with VPC connection (Private)
+- VPC Connector
 
 Create the ECR and other modules:
 
@@ -28,7 +28,7 @@ Set the instance type:
 ```terraform
 # Choose one
 app_runner_workload = "PUBLIC"
-app_runner_workload = "PRIVATE"
+app_runner_workload = "VPC"
 ```
 
 Apply again to create the App Runner instance:;
