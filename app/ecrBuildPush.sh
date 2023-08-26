@@ -1,10 +1,9 @@
 #!/bin/bash
 
-localTag="javaapp-local"
-acr=acrepicservicex
-image="$acr.azurecr.io/javaapp:latest"
+account=$(aws sts get-caller-identity --query "Account" --output text)
+region="us-east-2"
 
-docker build -t $localTag .
-az acr login --name $acrName
-docker tag $localTag $image
-docker push $image
+docker build -t apprunner-javaapp-xray .
+docker tag apprunner-javaapp-xray "$account.dkr.ecr.$region.amazonaws.com/ecr-apprunner-java-xray:latest"
+aws ecr get-login-password --region $region | docker login --username AWS --password-stdin "$account.dkr.ecr.$region.amazonaws.com"
+docker push "$account.dkr.ecr.$region.amazonaws.com/ecr-apprunner-java-xray:latest"

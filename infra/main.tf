@@ -24,6 +24,15 @@ resource "aws_apprunner_service" "main" {
     instance_role_arn = aws_iam_role.instance_role.arn
   }
 
+  network_configuration {
+    egress_configuration {
+      egress_type = "DEFAULT"
+    }
+    ingress_configuration {
+      is_publicly_accessible = true
+    }
+  }
+
   source_configuration {
     auto_deployments_enabled = true
 
@@ -34,6 +43,9 @@ resource "aws_apprunner_service" "main" {
       image_identifier      = "${aws_ecr_repository.app.repository_url}:latest"
       image_repository_type = "ECR"
     }
+
+    runtime_environment_secrets   = {}
+    runtime_environment_variables = {}
 
     authentication_configuration {
       access_role_arn = aws_iam_role.access_role.arn
