@@ -11,7 +11,6 @@ resource "aws_instance" "nat_instance" {
   ami           = "ami-08fdd91d87f63bb09"
   instance_type = "t4g.nano"
 
-  #checkov:skip=CKV_AWS_88:VPN is too expensive. VM will be shutted down
   associate_public_ip_address = true
   subnet_id                   = var.subnet
   vpc_security_group_ids      = [aws_security_group.nat_instance.id]
@@ -20,7 +19,6 @@ resource "aws_instance" "nat_instance" {
   iam_instance_profile = aws_iam_instance_profile.nat_instance.id
   user_data            = file("${path.module}/userdata.sh")
 
-  # Requirement for NAT
   source_dest_check = false
 
   metadata_options {
@@ -28,10 +26,8 @@ resource "aws_instance" "nat_instance" {
     http_tokens   = "required"
   }
 
-  #checkov:skip=CKV_AWS_126:Bastion host
   monitoring = false
 
-  #checkov:skip=CKV_AWS_135:Bastion host
   ebs_optimized = false
 
   root_block_device {
