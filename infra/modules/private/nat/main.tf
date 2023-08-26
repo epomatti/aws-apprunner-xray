@@ -49,9 +49,14 @@ resource "aws_instance" "nat_instance" {
 
 ### NAT Instance Routes ###
 
-resource "aws_route" "nat" {
-  for_each               = toset(var.route_tables)
-  route_table_id         = each.key
+resource "aws_route" "route_1" {
+  route_table_id         = var.route_tables[0]
+  destination_cidr_block = "0.0.0.0/0"
+  network_interface_id   = aws_instance.nat_instance.primary_network_interface_id
+}
+
+resource "aws_route" "route_2" {
+  route_table_id         = var.route_tables[1]
   destination_cidr_block = "0.0.0.0/0"
   network_interface_id   = aws_instance.nat_instance.primary_network_interface_id
 }
@@ -99,46 +104,20 @@ data "aws_vpc" "selected" {
   id = var.vpc_id
 }
 
-resource "aws_security_group_rule" "allow_ingress_vpc_http" {
-  description       = "Allow VPC HTTP ingress"
-  type              = "ingress"
-  from_port         = 80
-  to_port           = 80
-  protocol          = "TCP"
-  cidr_blocks       = [data.aws_vpc.selected.cidr_block]
-  ipv6_cidr_blocks  = []
-  security_group_id = aws_security_group.nat_instance.id
-}
-
 resource "aws_security_group_rule" "allow_ingress_vpc_https" {
-  description       = "Allow VPC HTTPS ingress"
   type              = "ingress"
   from_port         = 443
   to_port           = 443
   protocol          = "TCP"
   cidr_blocks       = [data.aws_vpc.selected.cidr_block]
-  ipv6_cidr_blocks  = []
-  security_group_id = aws_security_group.nat_instance.id
-}
-
-resource "aws_security_group_rule" "allow_egress_internet_http" {
-  description       = "Allow VPC HTTP egress"
-  type              = "egress"
-  from_port         = 80
-  to_port           = 80
-  protocol          = "TCP"
-  cidr_blocks       = ["0.0.0.0/0"] #tfsec:ignore:aws-ec2-no-public-egress-sgr
-  ipv6_cidr_blocks  = []
   security_group_id = aws_security_group.nat_instance.id
 }
 
 resource "aws_security_group_rule" "allow_egress_internet_https" {
-  description       = "Allow VPC HTTPS egress"
   type              = "egress"
   from_port         = 443
   to_port           = 443
   protocol          = "TCP"
-  cidr_blocks       = ["0.0.0.0/0"] #tfsec:ignore:aws-ec2-no-public-egress-sgr
-  ipv6_cidr_blocks  = []
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.nat_instance.id
 }
