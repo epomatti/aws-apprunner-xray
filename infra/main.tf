@@ -31,6 +31,18 @@ module "apprunner_public" {
   repository_url    = aws_ecr_repository.app.repository_url
 }
 
+module "apprunner_private" {
+  source            = "./modules/private"
+  count             = var.app_runner_workload == "PRIVATE" ? 1 : 0
+  aws_region        = var.aws_region
+  workload          = "private"
+  cpu               = var.app_runner_cpu
+  mem               = var.app_runner_memory
+  instance_role_arn = module.iam.instance_role_arn
+  access_role_arn   = module.iam.access_role_arn
+  repository_url    = aws_ecr_repository.app.repository_url
+}
+
 resource "aws_xray_sampling_rule" "app" {
   rule_name      = "JavaApp"
   priority       = 100
