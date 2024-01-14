@@ -11,7 +11,7 @@ terraform -chdir="infra" init
 terraform -chdir="infra" apply -auto-approve
 ```
 
-Now build and push the Java application to ECR:
+Now, build and push the Java application to ECR:
 
 ```sh
 (cd ./app; bash ./ecrBuildPush.sh)
@@ -31,7 +31,7 @@ app_runner_workload = "PUBLIC"
 app_runner_workload = "PUBLIC_WITH_VPC"
 ```
 
-Apply again to create the App Runner instance:;
+Apply again to create the App Runner instance:
 
 ```sh
 terraform -chdir="infra" apply -auto-approve

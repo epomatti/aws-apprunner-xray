@@ -1,5 +1,4 @@
 ### Instance Role ###
-
 resource "aws_iam_role" "instance_role" {
   name = "AppRunnerXRayInstanceRole"
 
@@ -24,7 +23,6 @@ resource "aws_iam_role_policy_attachment" "xray" {
 }
 
 ### Access Role ###
-
 resource "aws_iam_role" "access_role" {
   name = "AppRunnerXRayAccessRole"
 

@@ -8,8 +8,8 @@ data "aws_subnet" "selected" {
 }
 
 resource "aws_instance" "nat_instance" {
-  ami           = "ami-08fdd91d87f63bb09"
-  instance_type = "t4g.nano"
+  ami           = "ami-0748d13ffbc370c2b"
+  instance_type = "t4g.micro"
 
   associate_public_ip_address = true
   subnet_id                   = var.subnet
@@ -19,6 +19,7 @@ resource "aws_instance" "nat_instance" {
   iam_instance_profile = aws_iam_instance_profile.nat_instance.id
   user_data            = file("${path.module}/userdata.sh")
 
+  # Required for NAT
   source_dest_check = false
 
   metadata_options {
@@ -26,9 +27,8 @@ resource "aws_instance" "nat_instance" {
     http_tokens   = "required"
   }
 
-  monitoring = false
-
-  ebs_optimized = false
+  monitoring    = true
+  ebs_optimized = true
 
   root_block_device {
     encrypted = true
@@ -110,6 +110,15 @@ resource "aws_security_group_rule" "allow_ingress_vpc_https" {
   to_port           = 443
   protocol          = "TCP"
   cidr_blocks       = [data.aws_vpc.selected.cidr_block]
+  security_group_id = aws_security_group.nat_instance.id
+}
+
+resource "aws_security_group_rule" "allow_egress_internet_http" {
+  type              = "egress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "TCP"
+  cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.nat_instance.id
 }
 
