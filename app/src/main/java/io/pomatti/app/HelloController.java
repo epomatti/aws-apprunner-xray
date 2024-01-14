@@ -16,4 +16,9 @@ public class HelloController {
 		return "Hello!";
 	}
 
+	@GetMapping("/api/customer")
+	public String api() {
+		return "Customer";
+	}
+
 }

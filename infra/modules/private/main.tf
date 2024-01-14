@@ -92,3 +92,8 @@ resource "aws_security_group_rule" "all_egress" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.main.id
 }
+
+module "xray" {
+  source = "../xray"
+  host   = aws_apprunner_service.main.service_url
+}

@@ -50,3 +50,8 @@ resource "aws_apprunner_observability_configuration" "main" {
     vendor = "AWSXRAY"
   }
 }
+
+module "xray" {
+  source = "../xray"
+  host   = aws_apprunner_service.main.service_url
+}

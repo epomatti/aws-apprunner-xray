@@ -8,6 +8,10 @@ variable "app_runner_workload" {
   default = "NONE"
 }
 
+variable "create_app_runner" {
+  type = bool
+}
+
 variable "app_runner_cpu" {
   type    = string
   default = "1 vCPU"
