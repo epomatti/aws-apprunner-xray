@@ -19,7 +19,11 @@ ENV OTEL_PROPAGATORS=xray
 ENV OTEL_TRACES_SAMPLER=xray
 ENV OTEL_METRICS_EXPORTER=none
 ENV OTEL_SERVICE_NAME=MyApp
+# ENV OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","*.jar"]
+# https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-java-configuration.html#xray-sdk-java-configuration-sampling
+# ENTRYPOINT ["java", "-Dotel.javaagent.debug=true", "-jar","*.jar"]
+# ENTRYPOINT ["java", "-Dlogging.level.com.amazonaws.xray=DEBUG", "-jar","*.jar"]
+ENTRYPOINT ["java", "-jar","*.jar"]
