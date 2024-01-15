@@ -20,7 +20,7 @@ RUN apt-get install -y curl
 ENV NODE_ENV production
 WORKDIR /usr/src/app
 
-COPY package.json package-lock.json tsconfig.json ./
+COPY package.json package-lock.json ./
 RUN npm install --production --frozen-lockfile
 COPY --from=builder /usr/src/app/dist ./dist
 
