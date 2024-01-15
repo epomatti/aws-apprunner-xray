@@ -23,7 +23,7 @@ resource "aws_apprunner_service" "main" {
       image_configuration {
         port = "8080"
       }
-      image_identifier      = "${var.repository_url}:latest"
+      image_identifier      = "${var.repository_url}:${var.image_tag}"
       image_repository_type = "ECR"
     }
 

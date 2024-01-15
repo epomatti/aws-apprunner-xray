@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx ts-node server.ts"
+    "start": "ts-node server.ts",
+    "build": "tsc --build"
   },
   "keywords": [],
   "author": "",

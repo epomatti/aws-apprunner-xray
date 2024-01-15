@@ -30,6 +30,7 @@ module "apprunner_public" {
   instance_role_arn = module.iam.instance_role_arn
   access_role_arn   = module.iam.access_role_arn
   repository_url    = aws_ecr_repository.app.repository_url
+  image_tag         = var.ecr_image_tag
 }
 
 module "apprunner_private" {
@@ -42,4 +43,5 @@ module "apprunner_private" {
   instance_role_arn = module.iam.instance_role_arn
   access_role_arn   = module.iam.access_role_arn
   repository_url    = aws_ecr_repository.app.repository_url
+  image_tag         = var.ecr_image_tag
 }

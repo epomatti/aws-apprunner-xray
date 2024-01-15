@@ -21,3 +21,7 @@ variable "access_role_arn" {
 variable "repository_url" {
   type = string
 }
+
+variable "image_tag" {
+  type = string
+}
