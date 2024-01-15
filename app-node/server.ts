@@ -1,9 +1,15 @@
 import express from "express";
-
-const app = express();
-const port = 8080;
+import AWSXRay from 'aws-xray-sdk';
 
 async function main() {
+
+  const app = express();
+  const port = 8080;
+
+  AWSXRay.config([AWSXRay.plugins.ECSPlugin, AWSXRay.plugins.ECSPlugin]);
+  const xraySegmentDefaultName = "MyApp";
+  app.use(AWSXRay.express.openSegment(xraySegmentDefaultName));
+
   app.get('/', (req, res) => {
     res.send('OK');
   });
@@ -16,6 +22,8 @@ async function main() {
     res.send('Healthy');
   });
 
+  app.use(AWSXRay.express.closeSegment());
+
   app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
   });
@@ -25,6 +33,6 @@ main()
   .then(async () => {
   })
   .catch(async (e) => {
-    console.error(e)
-    process.exit(1)
+    console.error(e);
+    process.exit(1);
   })
