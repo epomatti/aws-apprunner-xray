@@ -4,8 +4,7 @@ variable "aws_region" {
 }
 
 variable "app_runner_workload" {
-  type    = string
-  default = "NONE"
+  type = string
 }
 
 variable "create_app_runner" {
@@ -13,13 +12,11 @@ variable "create_app_runner" {
 }
 
 variable "app_runner_cpu" {
-  type    = string
-  default = "1 vCPU"
+  type = string
 }
 
 variable "app_runner_memory" {
-  type    = string
-  default = "2 GB"
+  type = string
 }
 
 variable "ecr_image_tag" {
