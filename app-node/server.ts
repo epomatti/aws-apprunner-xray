@@ -1,14 +1,16 @@
 import express from "express";
-import AWSXRay from 'aws-xray-sdk';
+var xrayExpress = require('aws-xray-sdk-express');
 
 async function main() {
 
   const app = express();
   const port = 8080;
 
-  AWSXRay.config([AWSXRay.plugins.ECSPlugin, AWSXRay.plugins.ECSPlugin]);
-  const xraySegmentDefaultName = "MyApp";
-  app.use(AWSXRay.express.openSegment(xraySegmentDefaultName));
+  // https://github.com/aws/aws-xray-sdk-node/tree/master/packages/core#setup
+  // https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-nodejs-middleware.html
+  // https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-nodejs-configuration.html
+
+  app.use(xrayExpress.openSegment('MyApp'));
 
   app.get('/', (req, res) => {
     res.send('OK');
@@ -22,7 +24,7 @@ async function main() {
     res.send('Healthy');
   });
 
-  app.use(AWSXRay.express.closeSegment());
+  app.use(xrayExpress.closeSegment());
 
   app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);

@@ -31,6 +31,7 @@ module "apprunner_public" {
   access_role_arn   = module.iam.access_role_arn
   repository_url    = aws_ecr_repository.app.repository_url
   image_tag         = var.ecr_image_tag
+  xray_debug_mode   = var.xray_debug_mode
 }
 
 module "apprunner_private" {
@@ -44,4 +45,5 @@ module "apprunner_private" {
   access_role_arn   = module.iam.access_role_arn
   repository_url    = aws_ecr_repository.app.repository_url
   image_tag         = var.ecr_image_tag
+  xray_debug_mode   = var.xray_debug_mode
 }

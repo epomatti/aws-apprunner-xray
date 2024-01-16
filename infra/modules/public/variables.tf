@@ -25,3 +25,7 @@ variable "repository_url" {
 variable "image_tag" {
   type = string
 }
+
+variable "xray_debug_mode" {
+  type = string
+}

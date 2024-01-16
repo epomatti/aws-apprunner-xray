@@ -22,3 +22,7 @@ variable "app_runner_memory" {
 variable "ecr_image_tag" {
   type = string
 }
+
+variable "xray_debug_mode" {
+  type = string
+}
