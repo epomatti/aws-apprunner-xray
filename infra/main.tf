@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.32.1"
+      version = "5.33.0"
     }
   }
 }
@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_ecr_repository" "app" {
-  name                 = "ecr-apprunner-java-xray"
+  name                 = "apprunner-xray"
   image_tag_mutability = "MUTABLE"
   force_delete         = true
 }
