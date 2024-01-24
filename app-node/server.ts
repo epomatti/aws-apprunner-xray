@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from "express";
 var xrayExpress = require('aws-xray-sdk-express');
 

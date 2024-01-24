@@ -22,10 +22,10 @@ resource "aws_apprunner_service" "main" {
     image_repository {
       image_configuration {
         port = "8080"
-        runtime_environment_variables = {
-          AWS_XRAY_DEBUG_MODE   = var.xray_debug_mode
-          AWS_XRAY_TRACING_NAME = "MyApp"
-        }
+        # runtime_environment_variables = {
+        #   AWS_XRAY_DEBUG_MODE   = var.xray_debug_mode
+        #   AWS_XRAY_TRACING_NAME = "MyApp"
+        # }
       }
       image_identifier      = "${var.repository_url}:${var.image_tag}"
       image_repository_type = "ECR"
