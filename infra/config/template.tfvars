@@ -1,10 +1,10 @@
-create_app_runner = false
+create_app_runner         = false
+create_xray_sampling_rule = false
 
-app_runner_workload = "PUBLIC"
-# app_runner_workload = "PUBLIC_WITH_VPC"
+app_runner_workload = "PUBLIC"  # PUPLIC, PUBLIC_WITH_VPC
+ecr_image_tag       = "javaapp" # latest, javaapp
 
-ecr_image_tag = "latest"
-# ecr_image_tag = "nodeapp"
+app_runner_cpu    = "4 vCPU"
+app_runner_memory = "8 GB"
 
-app_runner_cpu    = "2 vCPU"
-app_runner_memory = "4 GB"
+xray_debug_mode = "TRUE"

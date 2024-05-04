@@ -11,6 +11,10 @@ variable "create_app_runner" {
   type = bool
 }
 
+variable "create_xray_sampling_rule" {
+  type = bool
+}
+
 variable "app_runner_cpu" {
   type = string
 }

@@ -55,7 +55,7 @@ resource "aws_apprunner_observability_configuration" "main" {
   }
 }
 
-module "xray" {
-  source = "../xray"
-  host   = aws_apprunner_service.main.service_url
-}
+# module "xray" {
+#   source = "../xray"
+#   host   = aws_apprunner_service.main.service_url
+# }

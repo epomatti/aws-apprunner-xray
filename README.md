@@ -38,6 +38,13 @@ Apply again to create the App Runner instance:
 terraform -chdir="infra" apply -auto-approve
 ```
 
+## Actuator
+
+
+```sh
+curl https://<service-id>.us-east-2.awsapprunner.com/actuator/health
+```
+
 ---
 
 ### Clean-up

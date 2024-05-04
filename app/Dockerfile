@@ -4,7 +4,7 @@
 FROM eclipse-temurin:21-jdk-jammy as builder
 WORKDIR /opt/app
 COPY . .
-RUN ./mvnw dependency:go-offline
+RUN ./mvnw dependency:go-offline -Dhttps.protocols=TLSv1.2
 RUN ./mvnw clean install
 
 ### Runtime ###
@@ -25,5 +25,5 @@ EXPOSE 8080
 
 # https://docs.aws.amazon.com/xray/latest/devguide/xray-sdk-java-configuration.html#xray-sdk-java-configuration-sampling
 # ENTRYPOINT ["java", "-Dotel.javaagent.debug=true", "-jar","*.jar"]
-# ENTRYPOINT ["java", "-Dlogging.level.com.amazonaws.xray=DEBUG", "-jar","*.jar"]
-ENTRYPOINT ["java", "-jar","*.jar"]
+ENTRYPOINT ["java", "-Dlogging.level.com.amazonaws.xray=DEBUG", "-Dotel.javaagent.debug=true", "-jar","*.jar"]
+# ENTRYPOINT ["java", "-jar","*.jar"]
