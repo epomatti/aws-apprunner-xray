@@ -52,7 +52,7 @@ Build and run the image:
 
 ```sh
 docker build -t javaapp-local .
-docker run --rm -p 8080:8080 -e OBSERVABILITY_ENABLED=1 -t javaapp-local
+docker run --rm -p 8080:8080 -e OBSERVABILITY_ENABLED=1 -e XRAY_LOGGING_LEVEL=INFO -e OTEL_JAVAAGENT_DEBUG=false -t javaapp-local
 ```
 
 ---
