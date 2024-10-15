@@ -15,7 +15,7 @@ terraform -chdir="infra" apply -auto-approve
 Now, build and push the Java application to ECR:
 
 ```sh
-(cd ./app; bash ./ecrBuildPush.sh)
+(cd ./apps/java; bash ./ecrBuildPush.sh)
 ```
 
 Create the `.auto.tfvars` file:
@@ -40,9 +40,25 @@ terraform -chdir="infra" apply -auto-approve
 
 ## Actuator
 
+Testing the Java service:
 
 ```sh
 curl https://<service-id>.us-east-2.awsapprunner.com/actuator/health
+```
+
+## Local development
+
+Build the image:
+
+```sh
+docker build -t javaapp-local .
+```
+
+Run the image:
+
+```sh
+# docker run --rm -p 8080:8080 -t javaapp-local -e XRAY_DEBUG_ENABLED=1
+docker run --rm -p 8080:8080 -e OBSERVABILITY_ENABLED=1 -t javaapp-local
 ```
 
 ---

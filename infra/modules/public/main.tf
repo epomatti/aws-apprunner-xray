@@ -8,9 +8,11 @@ resource "aws_apprunner_service" "main" {
   }
 
   network_configuration {
+
     egress_configuration {
       egress_type = "DEFAULT"
     }
+
     ingress_configuration {
       is_publicly_accessible = true
     }
@@ -20,6 +22,7 @@ resource "aws_apprunner_service" "main" {
     auto_deployments_enabled = true
 
     image_repository {
+
       image_configuration {
         port = "8080"
         # runtime_environment_variables = {
