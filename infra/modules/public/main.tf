@@ -1,3 +1,7 @@
+locals {
+  docker_observability_enabled = var.enable_dockerfile_otel_agent ? "1" : "0"
+}
+
 resource "aws_apprunner_service" "main" {
   service_name = "apprunner-java-xray-${var.workload}"
 
@@ -25,10 +29,11 @@ resource "aws_apprunner_service" "main" {
 
       image_configuration {
         port = "8080"
-        # runtime_environment_variables = {
-        #   AWS_XRAY_DEBUG_MODE   = var.xray_debug_mode
-        #   AWS_XRAY_TRACING_NAME = "MyApp"
-        # }
+        runtime_environment_variables = {
+          OBSERVABILITY_ENABLED = local.docker_observability_enabled
+          # AWS_XRAY_DEBUG_MODE   = var.xray_debug_mode
+          # AWS_XRAY_TRACING_NAME = "MyApp"
+        }
       }
       image_identifier      = "${var.repository_url}:${var.image_tag}"
       image_repository_type = "ECR"
@@ -45,8 +50,8 @@ resource "aws_apprunner_service" "main" {
   }
 
   observability_configuration {
-    observability_enabled           = true
-    observability_configuration_arn = aws_apprunner_observability_configuration.main.arn
+    observability_enabled           = var.enable_apprunner_observability
+    observability_configuration_arn = var.enable_apprunner_observability ? aws_apprunner_observability_configuration.main.arn : null
   }
 }
 

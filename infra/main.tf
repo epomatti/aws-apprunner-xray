@@ -37,6 +37,9 @@ module "apprunner_public" {
   repository_url    = aws_ecr_repository.app.repository_url
   image_tag         = var.ecr_image_tag
   xray_debug_mode   = var.xray_debug_mode
+
+  enable_dockerfile_otel_agent   = var.enable_dockerfile_otel_agent
+  enable_apprunner_observability = var.enable_apprunner_observability
 }
 
 module "apprunner_private" {

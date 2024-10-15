@@ -29,3 +29,11 @@ variable "image_tag" {
 variable "xray_debug_mode" {
   type = string
 }
+
+variable "enable_dockerfile_otel_agent" {
+  type = bool
+}
+
+variable "enable_apprunner_observability" {
+  type = bool
+}
