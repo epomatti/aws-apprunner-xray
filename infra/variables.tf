@@ -38,3 +38,11 @@ variable "enable_dockerfile_otel_agent" {
 variable "enable_apprunner_observability" {
   type = bool
 }
+
+variable "xray_logging_level" {
+  type = string
+}
+
+variable "otel_javaagent_debug" {
+  type = string
+}

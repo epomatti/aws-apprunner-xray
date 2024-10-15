@@ -48,16 +48,10 @@ curl https://<service-id>.us-east-2.awsapprunner.com/actuator/health
 
 ## Local development
 
-Build the image:
+Build and run the image:
 
 ```sh
 docker build -t javaapp-local .
-```
-
-Run the image:
-
-```sh
-# docker run --rm -p 8080:8080 -t javaapp-local -e XRAY_DEBUG_ENABLED=1
 docker run --rm -p 8080:8080 -e OBSERVABILITY_ENABLED=1 -t javaapp-local
 ```
 

@@ -31,6 +31,8 @@ resource "aws_apprunner_service" "main" {
         port = "8080"
         runtime_environment_variables = {
           OBSERVABILITY_ENABLED = local.docker_observability_enabled
+          XRAY_LOGGING_LEVEL    = var.xray_logging_level
+          OTEL_JAVAAGENT_DEBUG  = var.otel_javaagent_debug
           # AWS_XRAY_DEBUG_MODE   = var.xray_debug_mode
           # AWS_XRAY_TRACING_NAME = "MyApp"
         }

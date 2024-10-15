@@ -3,7 +3,9 @@
 ### Builder ###
 FROM eclipse-temurin:21-jdk-jammy AS builder
 
-ENV OBSERVABILITY_ENABLED="teste"
+ENV OBSERVABILITY_ENABLED="true"
+ENV XRAY_LOGGING_LEVEL="INFO"
+ENV OTEL_JAVAAGENT_DEBUG="false"
 
 WORKDIR /opt/app
 COPY . .
@@ -32,9 +34,6 @@ ADD https://github.com/aws-observability/aws-otel-java-instrumentation/releases/
 # https://www.baeldung.com/ops/dockerfile-env-variable
 # ARG OBSERVABILITY_ENABLED
 
-RUN echo "ENV Var Passed in: $DEMO_VAR"
-#ENV OBSERVABILITY_ENABLED="teste"
-RUN echo "ENV Var Passed in: $DEMO_VAR"
 
 EXPOSE 8080
 

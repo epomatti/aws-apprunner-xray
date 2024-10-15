@@ -40,6 +40,8 @@ module "apprunner_public" {
 
   enable_dockerfile_otel_agent   = var.enable_dockerfile_otel_agent
   enable_apprunner_observability = var.enable_apprunner_observability
+  xray_logging_level             = var.xray_logging_level
+  otel_javaagent_debug           = var.otel_javaagent_debug
 }
 
 module "apprunner_private" {
